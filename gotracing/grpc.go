@@ -18,8 +18,7 @@ func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnarySe
 		}
 
 		mdKey := strings.ToLower(key)
-		values, ok := md[mdKey]
-		if !ok {
+		if values, ok := md[mdKey]; !ok {
 			ctx = context.WithValue(ctx, key, "")
 		} else if len(values) == 0 {
 			ctx = context.WithValue(ctx, key, "")
@@ -42,8 +41,7 @@ func GRPCUnaryClientInterceptor(ctx context.Context, method string, req, reply a
 
 	for _, key := range tracingKeys {
 		mdKey := strings.ToLower(key)
-		_, ok := md[mdKey]
-		if ok {
+		if _, ok := md[mdKey]; ok {
 			delete(md, mdKey)
 		}
 
