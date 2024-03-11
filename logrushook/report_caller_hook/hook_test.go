@@ -18,16 +18,14 @@ func TestHook(t *testing.T) {
 		return value
 	})
 
-	var (
-		buffer bytes.Buffer
-		fields logrus.Fields
-	)
+	var buffer bytes.Buffer
 	log := logrus.New()
 	log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetOutput(&buffer)
 	log.AddHook(hook)
 
 	log.Error("message")
+	var fields logrus.Fields
 	err := json.Unmarshal(buffer.Bytes(), &fields)
 	require.Nil(t, err)
 	require.Equal(t, value, fields[key])
