@@ -18,10 +18,8 @@ func Translate(code gocode.Code, language Language) string {
 	if _, ok := i18n[language]; !ok {
 		language = LanguageZhCn
 	}
-
 	if _, ok := i18n[language][code]; !ok {
 		code = Unknown
 	}
-
 	return i18n[language][code]
 }

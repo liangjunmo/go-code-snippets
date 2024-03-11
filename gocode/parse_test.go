@@ -36,15 +36,11 @@ func TestParse_WrappedCode(t *testing.T) {
 func TestParse_MultipleWrappedCode(t *testing.T) {
 	code := Code("code")
 	code10 := Code("code10")
-
 	err := fmt.Errorf("%s: %w", "err", code)
-
 	for i := 1; i < 10; i++ {
 		c := fmt.Sprintf("code%d", i)
 		err = fmt.Errorf("%s: %w", "err", Code(c))
 	}
-
 	err = fmt.Errorf("%s: %w", "err", code10)
-
 	require.Equal(t, code10, Parse(err))
 }
