@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/gorilla/websocket v1.5.1
 	github.com/levigross/grequests v0.0.0-20231203190023-9c307ef1f48d
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
