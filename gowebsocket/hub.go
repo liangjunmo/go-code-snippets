@@ -158,7 +158,6 @@ func (hub *Hub) write(ctx context.Context) {
 	}()
 
 	ticker := time.NewTicker(hub.pingPeriod)
-
 	for {
 		select {
 		case <-ctx.Done():

@@ -22,8 +22,6 @@ const (
 	RouteTestResponse Route = "TestResponse"
 )
 
-var wsUpgrader = websocket.Upgrader{}
-
 type TestMessage struct {
 	ID      string `json:"id"`
 	Route   Route  `json:"route"`
@@ -54,6 +52,8 @@ var testMessageParser MessageParser = func(ctx context.Context, raw []byte) (Mes
 var testErrorReceiver ErrorReceiver = func(ctx context.Context, err error) {
 	log.Println(err)
 }
+
+var wsUpgrader = websocket.Upgrader{}
 
 func TestHub(t *testing.T) {
 	SetMessageParser(testMessageParser)
@@ -111,12 +111,11 @@ func TestHub(t *testing.T) {
 			Route:   RouteTestRequest,
 			Payload: "hello world",
 		}
-
 		b, _ := json.Marshal(message)
 		err = conn.WriteMessage(websocket.TextMessage, b)
 		require.Nil(t, err)
-
 		<-done
+
 		conn.Close()
 		err = server.Shutdown(ctx)
 		require.Nil(t, err)
