@@ -10,7 +10,6 @@ import (
 
 func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 	md, exist := metadata.FromIncomingContext(ctx)
-
 	for _, key := range tracingKeys {
 		if !exist {
 			ctx = context.WithValue(ctx, key, "")
@@ -26,7 +25,6 @@ func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnarySe
 			ctx = context.WithValue(ctx, key, values[0])
 		}
 	}
-
 	if ctx.Value(tracingIDKey) == "" {
 		ctx = Trace(ctx)
 	}

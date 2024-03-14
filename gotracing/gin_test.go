@@ -39,7 +39,6 @@ func TestGinMiddleware(t *testing.T) {
 		Addr:    ":8000",
 		Handler: router,
 	}
-
 	go func() {
 		err := server.ListenAndServe()
 		if !errors.Is(err, http.ErrServerClosed) {
