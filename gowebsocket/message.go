@@ -10,8 +10,6 @@ type Message interface {
 	GetPayload() string
 }
 
-type Route string
-
 type MessageParser func(ctx context.Context, raw []byte) (Message, error)
 
 var messageParser MessageParser

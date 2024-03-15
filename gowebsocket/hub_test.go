@@ -18,33 +18,33 @@ const (
 	addr  = "localhost:8080"
 	route = "/ws"
 
-	RouteTestRequest  Route = "TestRequest"
-	RouteTestResponse Route = "TestResponse"
+	routeTestRequest  Route = "TestRequest"
+	routeTestResponse Route = "TestResponse"
 )
 
-type TestMessage struct {
+type testMessage struct {
 	ID      string `json:"id"`
 	Route   Route  `json:"route"`
 	Payload string `json:"payload"`
 }
 
-func (m TestMessage) GetID() string {
+func (m testMessage) GetID() string {
 	return m.ID
 }
 
-func (m TestMessage) GetRoute() Route {
+func (m testMessage) GetRoute() Route {
 	return m.Route
 }
 
-func (m TestMessage) GetPayload() string {
+func (m testMessage) GetPayload() string {
 	return m.Payload
 }
 
 var testMessageParser MessageParser = func(ctx context.Context, raw []byte) (Message, error) {
-	var message TestMessage
+	var message testMessage
 	err := json.Unmarshal(raw, &message)
 	if err != nil {
-		return TestMessage{}, err
+		return testMessage{}, err
 	}
 	return message, nil
 }
@@ -61,17 +61,17 @@ func TestHub(t *testing.T) {
 
 	done := make(chan struct{})
 
-	Intercept(RouteTestRequest, func(ctx context.Context, message Message, writing chan<- Message) error {
+	Intercept(routeTestRequest, func(ctx context.Context, message Message, writing chan<- Message) error {
 		t.Logf("%+v", message)
-		writing <- TestMessage{
+		writing <- testMessage{
 			ID:      time.Now().String(),
-			Route:   RouteTestResponse,
+			Route:   routeTestResponse,
 			Payload: message.GetPayload() + "...",
 		}
 		return nil
 	})
 
-	Handle(RouteTestResponse, func(ctx context.Context, message Message, writing chan<- Message) error {
+	Handle(routeTestResponse, func(ctx context.Context, message Message, writing chan<- Message) error {
 		t.Logf("%+v", message)
 		done <- struct{}{}
 		return nil
@@ -103,19 +103,19 @@ func TestHub(t *testing.T) {
 	require.Nil(t, err)
 	defer conn.Close()
 
-	hub := NewHub(conn, 10, 10)
 	ctx := context.Background()
+	hub := NewHub(conn, 10, 10)
 	go func() {
-		message := TestMessage{
+		message := testMessage{
 			ID:      time.Now().String(),
-			Route:   RouteTestRequest,
+			Route:   routeTestRequest,
 			Payload: "hello world",
 		}
 		b, _ := json.Marshal(message)
 		err = conn.WriteMessage(websocket.TextMessage, b)
 		require.Nil(t, err)
-		<-done
 
+		<-done
 		conn.Close()
 		err = server.Shutdown(ctx)
 		require.Nil(t, err)

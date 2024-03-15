@@ -88,7 +88,6 @@ func (hub *Hub) read(ctx context.Context) {
 		err     error
 		message Message
 	)
-
 	defer func() {
 		hub.canceled <- struct{}{}
 	}()
@@ -146,7 +145,6 @@ func (hub *Hub) read(ctx context.Context) {
 
 func (hub *Hub) write(ctx context.Context) {
 	var err error
-
 	defer func() {
 		if err != nil {
 			err = hub.conn.WriteMessage(websocket.CloseMessage, []byte{})
@@ -208,7 +206,6 @@ func (hub *Hub) write(ctx context.Context) {
 
 func (hub *Hub) handle(ctx context.Context) {
 	var err error
-
 	defer func() {
 		hub.canceled <- struct{}{}
 	}()

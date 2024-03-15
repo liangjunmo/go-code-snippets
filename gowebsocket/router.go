@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+type Route string
+
 type Handler func(ctx context.Context, message Message, writing chan<- Message) error
 
 var (
