@@ -24,7 +24,7 @@ type Hub struct {
 	maxMessageSize int64
 }
 
-func NewHub(conn *websocket.Conn, readingCapacity uint32, writingCapacity uint32) *Hub {
+func NewHub(conn *websocket.Conn, readBuffer, writeBuffer int) *Hub {
 	if messageParser == nil {
 		panic(fmt.Sprintf("message parser is nil"))
 	}
@@ -39,8 +39,8 @@ func NewHub(conn *websocket.Conn, readingCapacity uint32, writingCapacity uint32
 
 		canceled: make(chan struct{}),
 
-		reading: make(chan Message, readingCapacity),
-		writing: make(chan Message, writingCapacity),
+		reading: make(chan Message, readBuffer),
+		writing: make(chan Message, writeBuffer),
 
 		pingPeriod:     time.Second * 60 * 9 / 10,
 		readWait:       time.Second * 60,
