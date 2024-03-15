@@ -8,12 +8,14 @@ import (
 
 func TestSetTracingIDKey(t *testing.T) {
 	resetTracingKeys()
-	SetTracingIDKey("test")
-	require.Equal(t, "test", tracingIDKey)
+	key := "key"
+	SetTracingIDKey(key)
+	require.Equal(t, key, tracingIDKey)
 }
 
 func TestAppendTracingKeys(t *testing.T) {
 	resetTracingKeys()
-	AppendTracingKeys([]string{"test"})
-	require.Equal(t, []string{defaultTracingIDKey, "test"}, tracingKeys)
+	key := "key"
+	AppendTracingKeys([]string{key})
+	require.Equal(t, []string{defaultTracingIDKey, key}, tracingKeys)
 }
