@@ -1,4 +1,4 @@
-package gorsautil
+package rsautil
 
 import (
 	"testing"
