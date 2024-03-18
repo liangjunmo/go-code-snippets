@@ -1,4 +1,4 @@
-package gopagination
+package pagination
 
 type Request interface {
 	Paginate(totalRecords int) Pagination

@@ -1,4 +1,4 @@
-package gopagination
+package pagination
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package gopagination
+package pagination
 
 func Paginate(page, capacity, totalRecords, defaultPage, defaultCapacity int) Pagination {
 	if page < 1 {

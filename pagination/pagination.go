@@ -1,4 +1,4 @@
-package gopagination
+package pagination
 
 type Pagination interface {
 	GetPage() int
