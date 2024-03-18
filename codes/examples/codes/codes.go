@@ -1,14 +1,14 @@
 package codes
 
 import (
-	"github.com/liangjunmo/goutil/gocode"
+	"github.com/liangjunmo/goutil/codes"
 )
 
 const (
-	OK                  gocode.Code = "OK"
-	Unknown             gocode.Code = "Unknown"
-	Timeout             gocode.Code = "Timeout"
-	NotFound            gocode.Code = "NotFound"
-	InvalidRequest      gocode.Code = "InvalidRequest"
-	InternalServerError gocode.Code = "InternalServerError"
+	OK                  codes.Code = "OK"
+	Unknown             codes.Code = "Unknown"
+	Timeout             codes.Code = "Timeout"
+	NotFound            codes.Code = "NotFound"
+	InvalidRequest      codes.Code = "InvalidRequest"
+	InternalServerError codes.Code = "InternalServerError"
 )

@@ -3,14 +3,14 @@ package codes
 import (
 	"errors"
 
-	"github.com/liangjunmo/goutil/gocode"
+	"github.com/liangjunmo/goutil/codes"
 )
 
-func Parse(err error) gocode.Code {
-	code := gocode.Parse(err)
-	if errors.Is(code, gocode.DefaultCode) {
+func Parse(err error) codes.Code {
+	code := codes.Parse(err)
+	if errors.Is(code, codes.DefaultCode) {
 		code = Unknown
-	} else if errors.Is(code, gocode.SuccessCode) {
+	} else if errors.Is(code, codes.SuccessCode) {
 		code = OK
 	}
 	return code
