@@ -1,4 +1,4 @@
-package gocode
+package codes
 
 import (
 	"errors"

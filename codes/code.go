@@ -1,4 +1,4 @@
-package gocode
+package codes
 
 const (
 	DefaultCode Code = "default"
