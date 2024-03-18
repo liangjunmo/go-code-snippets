@@ -1,4 +1,4 @@
-package gowebsocket
+package websocket
 
 import (
 	"context"
