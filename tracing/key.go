@@ -1,4 +1,4 @@
-package gotracing
+package tracing
 
 func init() {
 	resetTracingKeys()

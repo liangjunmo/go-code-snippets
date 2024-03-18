@@ -1,4 +1,4 @@
-package gotracing
+package tracing
 
 import (
 	"github.com/sirupsen/logrus"
