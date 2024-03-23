@@ -1,4 +1,4 @@
-package report_caller_hook
+package report_caller
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ type Hook struct {
 	locationHandler LocationHandler
 }
 
-func New(levels []logrus.Level, fieldKey string) *Hook {
+func NewHook(levels []logrus.Level, fieldKey string) *Hook {
 	return &Hook{
 		levels:          levels,
 		fieldKey:        fieldKey,

@@ -1,4 +1,4 @@
-package report_caller_hook
+package report_caller
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ func TestHook(t *testing.T) {
 	key := "key"
 	value := "value"
 
-	hook := New([]logrus.Level{logrus.ErrorLevel}, key)
+	hook := NewHook([]logrus.Level{logrus.ErrorLevel}, key)
 	hook.SetLocationHandler(func(fileAbsolutePath string, line int) string {
 		return value
 	})
