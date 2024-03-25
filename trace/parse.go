@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import "context"
 
@@ -8,7 +8,7 @@ func Parse(ctx context.Context) (labels map[string]string) {
 	}
 
 	labels = make(map[string]string)
-	for _, key := range tracingKeys {
+	for _, key := range traceKeys {
 		value := ctx.Value(key)
 		if value == nil {
 			labels[key] = ""

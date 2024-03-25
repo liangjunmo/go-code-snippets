@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -9,10 +9,10 @@ import (
 func GinMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
-		for _, key := range tracingKeys {
+		for _, key := range traceKeys {
 			ctx = context.WithValue(ctx, key, c.GetHeader(key))
 		}
-		if ctx.Value(tracingIDKey) == "" {
+		if ctx.Value(traceIDKey) == "" {
 			ctx = Trace(ctx)
 		}
 		c.Request = c.Request.WithContext(ctx)

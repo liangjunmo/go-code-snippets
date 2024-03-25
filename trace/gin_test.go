@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -12,18 +12,18 @@ import (
 )
 
 func TestGinMiddleware(t *testing.T) {
-	resetTracingKeys()
+	resetTraceKeys()
 
 	key := "key"
 	value := "value"
 	key2 := "key2"
 	value2 := "value2"
 
-	SetTracingIDKey(key)
-	SetTracingIDGenerator(func() string {
+	SetTraceIDKey(key)
+	SetTraceIDGenerator(func() string {
 		return value
 	})
-	AppendTracingKeys([]string{key2})
+	AppendTraceKeys([]string{key2})
 
 	gin.SetMode(gin.ReleaseMode)
 

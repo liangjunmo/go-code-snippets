@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -8,12 +8,12 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	resetTracingKeys()
+	resetTraceKeys()
 
 	key := "key"
 	value := "value"
 
-	SetTracingIDKey(key)
+	SetTraceIDKey(key)
 
 	ctx := context.WithValue(context.Background(), key, value)
 	labels := Parse(ctx)

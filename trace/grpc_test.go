@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -11,18 +11,18 @@ import (
 )
 
 func TestGRPCUnaryServerInterceptor(t *testing.T) {
-	resetTracingKeys()
+	resetTraceKeys()
 
 	key := "key"
 	value := "value"
 	key2 := "key2"
 	value2 := "value2"
 
-	SetTracingIDKey(key)
-	SetTracingIDGenerator(func() string {
+	SetTraceIDKey(key)
+	SetTraceIDGenerator(func() string {
 		return value
 	})
-	AppendTracingKeys([]string{key2})
+	AppendTraceKeys([]string{key2})
 
 	md := metadata.New(map[string]string{
 		key2: value2,
@@ -39,18 +39,18 @@ func TestGRPCUnaryServerInterceptor(t *testing.T) {
 }
 
 func TestGRPCUnaryClientInterceptor(t *testing.T) {
-	resetTracingKeys()
+	resetTraceKeys()
 
 	key := "key"
 	value := "value"
 	key2 := "key2"
 	value2 := "value2"
 
-	SetTracingIDKey(key)
-	SetTracingIDGenerator(func() string {
+	SetTraceIDKey(key)
+	SetTraceIDGenerator(func() string {
 		return value
 	})
-	AppendTracingKeys([]string{key2})
+	AppendTraceKeys([]string{key2})
 
 	md := metadata.New(map[string]string{
 		key:  "",

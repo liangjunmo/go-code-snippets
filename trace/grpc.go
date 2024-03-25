@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 
 func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 	md, exist := metadata.FromIncomingContext(ctx)
-	for _, key := range tracingKeys {
+	for _, key := range traceKeys {
 		if !exist {
 			ctx = context.WithValue(ctx, key, "")
 			continue
@@ -25,7 +25,7 @@ func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnarySe
 			ctx = context.WithValue(ctx, key, values[0])
 		}
 	}
-	if ctx.Value(tracingIDKey) == "" {
+	if ctx.Value(traceIDKey) == "" {
 		ctx = Trace(ctx)
 	}
 	return handler(ctx, req)
@@ -34,10 +34,10 @@ func GRPCUnaryServerInterceptor(ctx context.Context, req any, info *grpc.UnarySe
 func GRPCUnaryClientInterceptor(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 	md, exist := metadata.FromOutgoingContext(ctx)
 	if !exist {
-		md = make(metadata.MD, len(tracingKeys))
+		md = make(metadata.MD, len(traceKeys))
 	}
 
-	for _, key := range tracingKeys {
+	for _, key := range traceKeys {
 		mdKey := strings.ToLower(key)
 		if _, ok := md[mdKey]; ok {
 			delete(md, mdKey)

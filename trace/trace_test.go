@@ -1,4 +1,4 @@
-package tracing
+package trace
 
 import (
 	"context"
@@ -8,13 +8,13 @@ import (
 )
 
 func TestTrace(t *testing.T) {
-	resetTracingKeys()
+	resetTraceKeys()
 
 	key := "key"
 	value := "value"
 
-	SetTracingIDKey(key)
-	SetTracingIDGenerator(func() string {
+	SetTraceIDKey(key)
+	SetTraceIDGenerator(func() string {
 		return value
 	})
 
