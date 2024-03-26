@@ -1,7 +1,7 @@
 package pagination
 
 type Request interface {
-	Paginate(totalRecords int) Pagination
+	Paginate(totalRecords int) Result
 }
 
 type DefaultRequest struct {
@@ -9,6 +9,12 @@ type DefaultRequest struct {
 	Capacity int `form:"capacity" json:"capacity"`
 }
 
-func (req *DefaultRequest) Paginate(totalRecords int) Pagination {
-	return Paginate(req.Page, req.Capacity, totalRecords, 1, 10)
+func (req *DefaultRequest) Paginate(totalRecords int) Result {
+	return Paginate(&Pagination{
+		Page:         req.Page,
+		Capacity:     req.Capacity,
+		TotalRecords: totalRecords,
+		MinCapacity:  1,
+		MaxCapacity:  100,
+	})
 }
