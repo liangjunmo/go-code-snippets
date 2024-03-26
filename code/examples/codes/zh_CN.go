@@ -1,10 +1,10 @@
 package codes
 
 import (
-	"github.com/liangjunmo/goutil/codes"
+	"github.com/liangjunmo/goutil/code"
 )
 
-var zhCn = map[codes.Code]string{
+var zhCn = map[code.Code]string{
 	OK:                  "OK",
 	Unknown:             "未知错误",
 	Timeout:             "请求超时",

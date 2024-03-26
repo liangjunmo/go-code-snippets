@@ -1,7 +1,7 @@
 package codes
 
 import (
-	"github.com/liangjunmo/goutil/codes"
+	"github.com/liangjunmo/goutil/code"
 )
 
 type Language string
@@ -10,11 +10,11 @@ const (
 	LanguageZhCn Language = "zh_CN"
 )
 
-var i18n = map[Language]map[codes.Code]string{
+var i18n = map[Language]map[code.Code]string{
 	LanguageZhCn: zhCn,
 }
 
-func Translate(code codes.Code, language Language) string {
+func Translate(code code.Code, language Language) string {
 	if _, ok := i18n[language]; !ok {
 		language = LanguageZhCn
 	}

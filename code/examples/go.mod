@@ -3,7 +3,7 @@ module github.com/liangjunmo/goutil/gocode/examples
 go 1.19
 
 require (
-	github.com/liangjunmo/goutil v0.0.0-20240318142605-ffc5b82af610
+	github.com/liangjunmo/goutil v0.0.0-20240326143924-dfafce29fdd2
 	github.com/stretchr/testify v1.9.0
 )
 
