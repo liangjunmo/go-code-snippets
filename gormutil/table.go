@@ -6,20 +6,26 @@ import (
 	"gorm.io/gorm"
 )
 
-func DropCreateTables(db *gorm.DB, models []interface{}) error {
+func RecreateTables(db *gorm.DB, models []interface{}) error {
+	stmt := &gorm.Statement{DB: db}
 	for _, model := range models {
-		err := db.Migrator().DropTable(model)
+		err := stmt.Parse(model)
 		if err != nil {
 			return err
 		}
 
-		err = db.AutoMigrate(model)
+		err = stmt.Migrator().DropTable(model)
 		if err != nil {
 			return err
 		}
 
-		if !db.Migrator().HasTable(model) {
-			return fmt.Errorf("table not created: %#v", model)
+		err = stmt.AutoMigrate(model)
+		if err != nil {
+			return err
+		}
+
+		if !stmt.Migrator().HasTable(model) {
+			return fmt.Errorf("failed to table create: %#v", stmt.Table)
 		}
 	}
 	return nil
@@ -33,13 +39,13 @@ func TruncateTables(db *gorm.DB, models []interface{}) error {
 			return err
 		}
 
-		err = db.AutoMigrate(model)
+		err = stmt.AutoMigrate(model)
 		if err != nil {
 			return err
 		}
 
-		sql := fmt.Sprintf("truncate table %s;", stmt.Schema.Table)
-		err = db.Exec(sql).Error
+		sql := fmt.Sprintf("truncate table %s;", stmt.Table)
+		err = stmt.Exec(sql).Error
 		if err != nil {
 			return err
 		}

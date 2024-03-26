@@ -2,7 +2,6 @@ package gormutil
 
 import (
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
@@ -11,11 +10,8 @@ import (
 )
 
 type User struct {
-	UID        int            `gorm:"column:id;type:int;not null;auto_increment;primary key;" json:"-"`
-	CreateTime time.Time      `gorm:"column:create_time;type:datetime;not null;autoCreateTime;" json:"-"`
-	UpdateTime time.Time      `gorm:"column:update_time;type:datetime;not null;autoUpdateTime;" json:"-"`
-	DeleteTime gorm.DeletedAt `gorm:"column:delete_time;type:datetime;default:null;index:idx_delete_time;" json:"-"`
-	Username   string         `gorm:"column:username;type:varchar(32);not null;index:idx_username,unique;" json:"-"`
+	gorm.Model
+	Username string
 }
 
 func (*User) TableName() string {
@@ -23,12 +19,9 @@ func (*User) TableName() string {
 }
 
 type User2 struct {
-	UID        int            `gorm:"column:id;type:int;not null;auto_increment;primary key;" json:"-"`
-	CreateTime time.Time      `gorm:"column:create_time;type:datetime;not null;autoCreateTime;" json:"-"`
-	UpdateTime time.Time      `gorm:"column:update_time;type:datetime;not null;autoUpdateTime;" json:"-"`
-	DeleteTime gorm.DeletedAt `gorm:"column:delete_time;type:datetime;default:null;index:idx_delete_time;" json:"-"`
-	Username   string         `gorm:"column:username;type:varchar(32);not null;index:idx_username,unique;" json:"-"`
-	Password   string         `gorm:"column:password;type:varchar(100);not null;" json:"-"`
+	gorm.Model
+	Username string
+	Password string
 }
 
 func (*User2) TableName() string {
@@ -49,7 +42,7 @@ func TestDropCreateTables(t *testing.T) {
 	err = db.AutoMigrate(&User{})
 	require.Nil(t, err)
 
-	err = DropCreateTables(db, []interface{}{&User2{}})
+	err = RecreateTables(db, []interface{}{&User2{}})
 	require.Nil(t, err)
 
 	exist := db.Migrator().HasColumn(&User2{}, "password")
