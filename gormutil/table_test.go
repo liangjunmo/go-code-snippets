@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
 
-	"github.com/liangjunmo/goutil/internal/testutil"
+	"github.com/liangjunmo/go-code-snippets/internal/testutil"
 )
 
 type User struct {

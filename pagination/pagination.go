@@ -1,88 +1,66 @@
 package pagination
 
+import "github.com/spf13/cast"
+
+const (
+	defaultPageIndex int = 1
+	defaultPageSize  int = 10
+	maxPageSize      int = 500
+)
+
 type Pagination struct {
-	Page         int
-	Capacity     int
-	TotalRecords int
-	MinCapacity  int
-	MaxCapacity  int
+	PageIndex    int `json:"page_index"`
+	PageSize     int `json:"page_size"`
+	TotalPages   int `json:"page_total"`
+	TotalResults int `json:"result_total"`
+	Offset       int `json:"-"`
+	Limit        int `json:"-"`
 }
 
-func Paginate(page *Pagination) Result {
-	if page.Page < 1 {
-		page.Page = 1
+type Request struct {
+	PageIndex int `json:"page_index"`
+	PageSize  int `json:"page_size"`
+}
+
+func (req Request) Paginate(count int64) Pagination {
+	if req.PageIndex < 1 {
+		req.PageIndex = defaultPageIndex
 	}
-	if page.Capacity < page.MinCapacity {
-		page.Capacity = page.MinCapacity
+	if req.PageSize < 1 {
+		req.PageSize = defaultPageSize
 	}
-	if page.Capacity > page.MaxCapacity {
-		page.Capacity = page.MaxCapacity
+	if req.PageSize > maxPageSize {
+		req.PageSize = maxPageSize
 	}
 
-	totalPages := page.TotalRecords / page.Capacity
-	if page.TotalRecords%page.Capacity > 0 {
-		totalPages++
+	var (
+		totalResults = cast.ToInt(count)
+		totalPages   = totalResults / req.PageSize
+		offset       int
+		limit        int
+	)
+	if totalResults%req.PageSize > 0 {
+		totalPages += 1
 	}
 	if totalPages == 0 {
 		totalPages = 1
 	}
-	if page.Page > totalPages {
-		page.Page = totalPages
+	if req.PageIndex > totalPages {
+		req.PageIndex = totalPages
 	}
 
-	offset := (page.Page - 1) * page.Capacity
-	limit := page.Capacity
-	if offset+limit > page.TotalRecords {
-		limit = page.TotalRecords - offset
+	offset = (req.PageIndex - 1) * req.PageSize
+	limit = req.PageSize
+	if offset+limit > totalResults {
+		limit = totalResults - offset
 	}
-	return &DefaultResult{
-		Page:         page.Page,
-		Capacity:     page.Capacity,
-		TotalRecords: page.TotalRecords,
+
+	return Pagination{
+		PageIndex:    req.PageIndex,
+		PageSize:     req.PageSize,
 		TotalPages:   totalPages,
+		TotalResults: totalResults,
 		Offset:       offset,
 		Limit:        limit,
 	}
-}
-
-type Result interface {
-	GetPage() int
-	GetCapacity() int
-	GetTotalRecords() int
-	GetTotalPages() int
-	GetOffset() int
-	GetLimit() int
-}
-
-type DefaultResult struct {
-	Page         int `json:"page"`
-	Capacity     int `json:"capacity"`
-	TotalRecords int `json:"total_records"`
-	TotalPages   int `json:"total_pages"`
-	Offset       int `json:"offset"`
-	Limit        int `json:"limit"`
-}
-
-func (r *DefaultResult) GetPage() int {
-	return r.Page
-}
-
-func (r *DefaultResult) GetCapacity() int {
-	return r.Capacity
-}
-
-func (r *DefaultResult) GetTotalRecords() int {
-	return r.TotalRecords
-}
-
-func (r *DefaultResult) GetTotalPages() int {
-	return r.TotalPages
-}
-
-func (r *DefaultResult) GetOffset() int {
-	return r.Offset
-}
-
-func (r *DefaultResult) GetLimit() int {
-	return r.Limit
 }

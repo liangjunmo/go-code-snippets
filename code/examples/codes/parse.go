@@ -3,7 +3,7 @@ package codes
 import (
 	"errors"
 
-	"github.com/liangjunmo/goutil/code"
+	"github.com/liangjunmo/go-code-snippets/code"
 )
 
 func Parse(err error) code.Code {

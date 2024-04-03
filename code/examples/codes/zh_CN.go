@@ -1,7 +1,7 @@
 package codes
 
 import (
-	"github.com/liangjunmo/goutil/code"
+	"github.com/liangjunmo/go-code-snippets/code"
 )
 
 var zhCn = map[code.Code]string{

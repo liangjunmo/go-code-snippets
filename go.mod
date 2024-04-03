@@ -1,12 +1,14 @@
-module github.com/liangjunmo/goutil
+module github.com/liangjunmo/go-code-snippets
 
 go 1.19
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gorilla/websocket v1.5.1
 	github.com/levigross/grequests v0.0.0-20231203190023-9c307ef1f48d
 	github.com/sirupsen/logrus v1.9.3
+	github.com/spf13/cast v1.6.0
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/grpc v1.62.1
 	gorm.io/driver/mysql v1.5.4
